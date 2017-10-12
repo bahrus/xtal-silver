@@ -1,48 +1,66 @@
-
 <html>
-    <head>
-        <script src="https://www.ag-grid.com/dist/ag-grid/ag-grid.js"></script>
-    </head>
+
+<head>
+
+</head>
+
 <body>
-<div id="myGrid" style="height: 100%;width:100%" class="ag-fresh"></div>
+    <div id="myGrid" style="height: 100%;width:100%" class="ag-fresh"></div>
 </body>
 <script>
-    // specify the columns
-var columnDefs = [
-    {headerName: "Make", field: "make"},
-    {headerName: "Model", field: "model"},
-    {headerName: "Price", field: "price"}
-];
+    //     // specify the columns
+    // var columnDefs = [
+    //     {headerName: "Make", field: "make"},
+    //     {headerName: "Model", field: "model"},
+    //     {headerName: "Price", field: "price"}
+    // ];
 
-// specify the data
-var rowData = [
-    {make: "Toyota", model: "Celica", price: 35000},
-    {make: "Ford", model: "Mondeo", price: 32000},
-    {make: "Porsche", model: "Boxter", price: 72000}
-];
+    // // specify the data
+    // var rowData = [
+    //     {make: "Toyota", model: "Celica", price: 35000},
+    //     {make: "Ford", model: "Mondeo", price: 32000},
+    //     {make: "Porsche", model: "Boxter", price: 72000}
+    // ];
 
-// let the grid know which columns and what data to use
-var gridOptions = {
-    columnDefs: columnDefs,
-    rowData: rowData,
-    onGridReady: function () {
-        gridOptions.api.sizeColumnsToFit();
+    // // let the grid know which columns and what data to use
+    // var gridOptions = {
+    //     columnDefs: columnDefs,
+    //     rowData: rowData,
+    //     onGridReady: function () {
+    //         gridOptions.api.sizeColumnsToFit();
+    //     }
+    // };
+
+    // // used in our jasmine test
+    // function selectAllRows() {
+    //     gridOptions.api.selectAll();
+    // }
+
+    // wait for the document to be loaded, otherwise ag-Grid will not find the div in the document.
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     // lookup the container we want the Grid to use
+    //     var eGridDiv = document.querySelector('#myGrid');
+
+    //     // create the grid passing in the div to use together with the columns & data we want to use
+    //     new agGrid.Grid(eGridDiv, gridOptions);
+    // });
+    function setGridOptions(gridOptions) {
+        console.log('in setGridOptions');
+        if(typeof agGrid === 'undefined' || !agGrid.Grid){
+            console.log('no agGrid');
+            setTimeout(function(){
+                console.log('wait for ag grid to load');
+                setGridOptions(gridOptions);
+            }, 100);
+            return;
+        }
+        console.log('set gridOptions');
+        var eGridDiv = document.querySelector('#myGrid');
+
+        // create the grid passing in the div to use together with the columns & data we want to use
+        new agGrid.Grid(eGridDiv, gridOptions);
     }
-};
-
-// used in our jasmine test
-function selectAllRows() {
-    gridOptions.api.selectAll();
-}
-
-// wait for the document to be loaded, otherwise ag-Grid will not find the div in the document.
-document.addEventListener("DOMContentLoaded", function () {
-    // lookup the container we want the Grid to use
-    var eGridDiv = document.querySelector('#myGrid');
-
-    // create the grid passing in the div to use together with the columns & data we want to use
-    new agGrid.Grid(eGridDiv, gridOptions);
-});
 </script>
-</html>
+<script async src="https://www.ag-grid.com/dist/ag-grid/ag-grid.js"></script>
 
+</html>

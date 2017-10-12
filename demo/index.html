@@ -28,7 +28,8 @@
     </div>
   </body>
   <script>
-        var columnDefs = [
+    customElements.whenDefined('xtal-silver').then(() =>{
+      var columnDefs = [
           { headerName: "Make", field: "make" },
           { headerName: "Model", field: "model" },
           { headerName: "Price", field: "price" }
@@ -51,5 +52,7 @@
         };
         var xtalSilver = document.querySelector('xtal-silver');
         xtalSilver.gridOptions = gridOptions;
+    })
+
   </script>
 </html>

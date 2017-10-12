@@ -28,14 +28,16 @@
       }
       static get template() {
         if (XtalSilver.isMSBrowser()) {
-          return `<iframe style="width:100%;height:100%" src="/iFrameContent.html"></iframe>`
-        } else {
           return `
-        <style>
+          <style>
       :host {
         display: block;
       }
     </style>
+    <iframe id="myIFrame" style="width:100%;height:100%" src="/iFrameContent.html"></iframe>`
+        } else {
+          return `
+
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
@@ -44,35 +46,28 @@
 
       }
       onPropsChange(){
-        var eGridDiv = this.$.myGrid;
+        if(XtalSilver.isMSBrowser()){
+          var iFrame = this.$.myIFrame;
+          if(!iFrame || !iFrame.contentWindow || !iFrame.contentWindow.setGridOptions){
+            setTimeout(() =>{
+              this.onPropsChange(), 100
+            });
+            return;
+          }
+          console.log('passed the tests');
+          iFrame.contentWindow.setGridOptions(this.gridOptions);
+        }else{
+          var eGridDiv = this.$.myGrid;
 
-        // create the grid passing in the div to use together with the columns & data we want to use
-        new agGrid.Grid(eGridDiv, this.gridOptions);
+          // create the grid passing in the div to use together with the columns & data we want to use
+          new agGrid.Grid(eGridDiv, this.gridOptions);
+        }
+
       }
       ready() {
         super.ready();
         // specify the columns
-        var columnDefs = [
-          { headerName: "Make", field: "make" },
-          { headerName: "Model", field: "model" },
-          { headerName: "Price", field: "price" }
-        ];
 
-        // specify the data
-        var rowData = [
-          { make: "Toyota", model: "Celica", price: 35000 },
-          { make: "Ford", model: "Mondeo", price: 32000 },
-          { make: "Porsche", model: "Boxter", price: 72000 }
-        ];
-
-        // let the grid know which columns and what data to use
-        var gridOptions = {
-          columnDefs: columnDefs,
-          rowData: rowData,
-          onGridReady: function () {
-            gridOptions.api.sizeColumnsToFit();
-          }
-        };
 
         // // used in our jasmine test
         // function selectAllRows() {
