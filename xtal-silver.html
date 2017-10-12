@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <link rel="import" href="../polymer/polymer-element.html">
-<script src="https://www.ag-grid.com/dist/ag-grid/ag-grid.js"></script>
+<script src="../ag-grid/dist/ag-grid.noStyle.js"></script>
 <dom-module id="xtal-silver">
   <template>
     <style>
@@ -8,7 +8,7 @@
         display: block;
       }
     </style>
-    i am here
+    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-fresh"></div>
   </template>
 
@@ -64,7 +64,7 @@
           var eGridDiv = this.$.myGrid;
 
           // create the grid passing in the div to use together with the columns & data we want to use
-          //new agGrid.Grid(eGridDiv, gridOptions);
+          new agGrid.Grid(eGridDiv, gridOptions);
         //});
       }
     }
