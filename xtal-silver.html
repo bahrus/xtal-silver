@@ -2,7 +2,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <script src="../ag-grid/dist/ag-grid.noStyle.js"></script>
 <dom-module id="xtal-silver">
-  <template>
+  <!-- <template>
     <style>
       :host {
         display: block;
@@ -11,7 +11,7 @@
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
-  </template>
+  </template> -->
 
   <script>
     /**
@@ -28,6 +28,18 @@
         return {
 
         };
+      }
+      static get template(){
+        return `
+        <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
+    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
+    <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
+        `;
       }
       ready() {
         super.ready();
