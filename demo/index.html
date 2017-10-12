@@ -27,4 +27,29 @@
       </demo-snippet>
     </div>
   </body>
+  <script>
+        var columnDefs = [
+          { headerName: "Make", field: "make" },
+          { headerName: "Model", field: "model" },
+          { headerName: "Price", field: "price" }
+        ];
+
+        // specify the data
+        var rowData = [
+          { make: "Toyota", model: "Celica", price: 35000 },
+          { make: "Ford", model: "Mondeo", price: 32000 },
+          { make: "Porsche", model: "Boxter", price: 72000 }
+        ];
+
+        // let the grid know which columns and what data to use
+        var gridOptions = {
+          columnDefs: columnDefs,
+          rowData: rowData,
+          onGridReady: function () {
+            gridOptions.api.sizeColumnsToFit();
+          }
+        };
+        var xtalSilver = document.querySelector('xtal-silver');
+        xtalSilver.gridOptions = gridOptions;
+  </script>
 </html>
