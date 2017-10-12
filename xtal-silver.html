@@ -47,8 +47,11 @@
       }
       onPropsChange(){
         if(XtalSilver.isMSBrowser()){
+          console.log('iah1');
           var iFrame = this.$.myIFrame;
+          console.log('iah2');
           if(!iFrame || !iFrame.contentWindow || !iFrame.contentWindow.setGridOptions){
+            console.log('iah3');
             setTimeout(() =>{
               this.onPropsChange(), 100
             });
@@ -64,22 +67,7 @@
         }
 
       }
-      ready() {
-        super.ready();
-        // specify the columns
-
-
-        // // used in our jasmine test
-        // function selectAllRows() {
-        //   gridOptions.api.selectAll();
-        // }
-
-        // wait for the document to be loaded, otherwise ag-Grid will not find the div in the document.
-        //document.addEventListener("DOMContentLoaded", function () {
-        // lookup the container we want the Grid to use
-        
-        //});
-      }
+      
     }
 
     window.customElements.define(XtalSilver.is, XtalSilver);

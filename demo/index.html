@@ -28,7 +28,14 @@
     </div>
   </body>
   <script>
-    customElements.whenDefined('xtal-silver').then(() =>{
+    function initialize(){
+      var xtalSilver = document.querySelector('xtal-silver');
+      if(typeof xtalSilver === 'undefined' || !xtalSilver){
+        setTimeout(function(){
+          initialize();
+        }, 100);
+        return;
+      }
       var columnDefs = [
           { headerName: "Make", field: "make" },
           { headerName: "Model", field: "model" },
@@ -50,8 +57,13 @@
             gridOptions.api.sizeColumnsToFit();
           }
         };
-        var xtalSilver = document.querySelector('xtal-silver');
         xtalSilver.gridOptions = gridOptions;
+    }
+    customElements.whenDefined('xtal-silver').then(() =>{
+      initialize();
+
+        
+        
     })
 
   </script>
