@@ -17,12 +17,18 @@
       static get is() { return 'xtal-silver'; }
       static get properties() {
         return {
-
+          gridOptions:{
+            type: Object,
+            observer: 'onPropsChange'
+          }
         };
       }
+      static isMSBrowser(){
+        return document.documentMode || /Edge/.test(navigator.userAgent);
+      }
       static get template() {
-        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
-          return `<iframe></iframe>`
+        if (XtalSilver.isMSBrowser()) {
+          return `<iframe style="width:100%;height:100%" src="/iFrameContent.html"></iframe>`
         } else {
           return `
         <style>
@@ -35,6 +41,9 @@
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
         `;
         }
+
+      }
+      onPropsChange(){
 
       }
       ready() {
