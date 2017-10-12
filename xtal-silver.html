@@ -2,16 +2,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <script src="../ag-grid/dist/ag-grid.noStyle.js"></script>
 <dom-module id="xtal-silver">
-  <!-- <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
-    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
-    <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
-  </template> -->
+
 
   <script>
     /**
@@ -29,8 +20,11 @@
 
         };
       }
-      static get template(){
-        return `
+      static get template() {
+        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+          return `<iframe></iframe>`
+        } else {
+          return `
         <style>
       :host {
         display: block;
@@ -40,6 +34,8 @@
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
         `;
+        }
+
       }
       ready() {
         super.ready();
@@ -73,11 +69,11 @@
 
         // wait for the document to be loaded, otherwise ag-Grid will not find the div in the document.
         //document.addEventListener("DOMContentLoaded", function () {
-          // lookup the container we want the Grid to use
-          var eGridDiv = this.$.myGrid;
+        // lookup the container we want the Grid to use
+        var eGridDiv = this.$.myGrid;
 
-          // create the grid passing in the div to use together with the columns & data we want to use
-          new agGrid.Grid(eGridDiv, gridOptions);
+        // create the grid passing in the div to use together with the columns & data we want to use
+        new agGrid.Grid(eGridDiv, gridOptions);
         //});
       }
     }
