@@ -17,21 +17,21 @@
       static get is() { return 'xtal-silver'; }
       static get properties() {
         return {
-          gridOptions:{
+          gridOptions: {
             type: Object,
             observer: 'onPropsChange'
           },
-          iframeSrc:{
+          iframeSrc: {
             type: String,
-            value: '/bower_components/xtal-silver/iFrameContent.html' 
+            value: '/bower_components/xtal-silver/iFrameContent.html'
           },
-          cssThemePath:{
+          cssThemePath: {
             type: String,
             //value: typeof(document.currentScript) !== 'undefined' ? 
           }
         };
       }
-      static isMSBrowser(){
+      static isMSBrowser() {
         return document.documentMode || /Edge/.test(navigator.userAgent);
       }
       static get template() {
@@ -55,44 +55,44 @@
       }
       //from https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
       absolute(base, relative) {
-          var stack = base.split("/"),
-              parts = relative.split("/");
-          stack.pop(); // remove current file name (or empty string)
-          // (omit if "base" is the current folder without trailing slash)
-          for (var i = 0; i < parts.length; i++) {
-              if (parts[i] == ".")
-                  continue;
-              if (parts[i] == "..")
-                  stack.pop();
-              else
-                  stack.push(parts[i]);
-          }
-          return stack.join("/");
+        var stack = base.split("/"),
+          parts = relative.split("/");
+        stack.pop(); // remove current file name (or empty string)
+        // (omit if "base" is the current folder without trailing slash)
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i] == ".")
+            continue;
+          if (parts[i] == "..")
+            stack.pop();
+          else
+            stack.push(parts[i]);
+        }
+        return stack.join("/");
       }
-      connectedCallback(){
-                super.connectedCallback();
-                if(!this.cssThemePath && !XtalSilver.isMSBrowser()){
-                  const locationOfThisFile = document.currentScript.baseURI;
-                  const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../../bower_components/ag-grid/dist/styles/ag-theme-material.css");
-                  console.log(locationOfDefaultThemeFile);
-                  this.cssThemePath = locationOfDefaultThemeFile;
-                }
+      connectedCallback() {
+        super.connectedCallback();
+        if (!this.cssThemePath && !XtalSilver.isMSBrowser()) {
+          const locationOfThisFile = document.currentScript.baseURI;
+          const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../../bower_components/ag-grid/dist/styles/ag-theme-material.css");
+          console.log(locationOfDefaultThemeFile);
+          this.cssThemePath = locationOfDefaultThemeFile;
+        }
       }
-      onPropsChange(){
-        if(XtalSilver.isMSBrowser()){
+      onPropsChange() {
+        if (XtalSilver.isMSBrowser()) {
           console.log('iah1');
           var iFrame = this.$.myIFrame;
           console.log('iah2');
-          if(!iFrame || !iFrame.contentWindow || !iFrame.contentWindow.setGridOptions){
+          if (!iFrame || !iFrame.contentWindow || !iFrame.contentWindow.setGridOptions) {
             console.log('iah3');
-            setTimeout(() =>{
+            setTimeout(() => {
               this.onPropsChange(), 100
             });
             return;
           }
           console.log('passed the tests');
           iFrame.contentWindow.setGridOptions(this.gridOptions);
-        }else{
+        } else {
           var eGridDiv = this.$.myGrid;
 
           // create the grid passing in the div to use together with the columns & data we want to use
@@ -100,7 +100,7 @@
         }
 
       }
-      
+
     }
 
     window.customElements.define(XtalSilver.is, XtalSilver);
