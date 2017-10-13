@@ -28,6 +28,9 @@
           cssThemePath: {
             type: String,
             //value: typeof(document.currentScript) !== 'undefined' ? 
+          },
+          cssBasePath:{
+            type: String,
           }
         };
       }
@@ -46,7 +49,7 @@
         } else {
           return `
 
-    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
+    <link rel="stylesheet" on-load="loaded" type="text/css" href="[[cssBasePath]]">
     <link rel="stylesheet" on-load="loaded" type="text/css" href$="[[cssThemePath]]">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
         `;
@@ -71,11 +74,18 @@
       }
       connectedCallback() {
         super.connectedCallback();
-        if (!this.cssThemePath && !XtalSilver.isMSBrowser()) {
+        if (!XtalSilver.isMSBrowser()) {
           const locationOfThisFile = document.currentScript.baseURI;
-          const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../../bower_components/ag-grid/dist/styles/ag-theme-material.css");
-          console.log(locationOfDefaultThemeFile);
-          this.cssThemePath = locationOfDefaultThemeFile;
+          if(!this.cssBasePath){
+            const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-grid.css");
+            this.cssThemePath = locationOfDefaultThemeFile;
+          }
+          if(!this.cssThemePath){
+            const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-theme-material.css");
+            this.cssThemePath = locationOfDefaultThemeFile;
+          }
+
+
         }
       }
       onPropsChange() {
