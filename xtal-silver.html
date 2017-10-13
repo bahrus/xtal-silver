@@ -24,6 +24,10 @@
           iframeSrc:{
             type: String,
             value: '/bower_components/xtal-silver/iFrameContent.html' 
+          },
+          cssThemePath:{
+            type: String,
+            //value: typeof(document.currentScript) !== 'undefined' ? 
           }
         };
       }
@@ -43,11 +47,36 @@
           return `
 
     <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-grid.css">
-    <link rel="stylesheet" on-load="loaded" type="text/css" href="/bower_components/ag-grid/dist/styles/ag-theme-material.css">
+    <link rel="stylesheet" on-load="loaded" type="text/css" href$="[[cssThemePath]]">
     <div id="myGrid" style="height: 115px;width:500px" class="ag-theme-material"></div>
         `;
         }
 
+      }
+      //from https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
+      absolute(base, relative) {
+          var stack = base.split("/"),
+              parts = relative.split("/");
+          stack.pop(); // remove current file name (or empty string)
+          // (omit if "base" is the current folder without trailing slash)
+          for (var i = 0; i < parts.length; i++) {
+              if (parts[i] == ".")
+                  continue;
+              if (parts[i] == "..")
+                  stack.pop();
+              else
+                  stack.push(parts[i]);
+          }
+          return stack.join("/");
+      }
+      connectedCallback(){
+                super.connectedCallback();
+                if(!this.cssThemePath && !XtalSilver.isMSBrowser()){
+                  const locationOfThisFile = document.currentScript.baseURI;
+                  const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../../bower_components/ag-grid/dist/styles/ag-theme-material.css");
+                  console.log(locationOfDefaultThemeFile);
+                  this.cssThemePath = locationOfDefaultThemeFile;
+                }
       }
       onPropsChange(){
         if(XtalSilver.isMSBrowser()){
