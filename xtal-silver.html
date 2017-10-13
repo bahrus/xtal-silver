@@ -20,6 +20,10 @@
           gridOptions:{
             type: Object,
             observer: 'onPropsChange'
+          },
+          iframeSrc:{
+            type: String,
+            value: '/bower_components/xtal-silver/iFrameContent.html' 
           }
         };
       }
@@ -34,7 +38,7 @@
         display: block;
       }
     </style>
-    <iframe id="myIFrame" style="width:100%;height:100%" src="/iFrameContent.html"></iframe>`
+    <iframe id="myIFrame" frameBorder="0" style="width:100%;height:100%" src$="[[iframeSrc]]"></iframe>`
         } else {
           return `
 
