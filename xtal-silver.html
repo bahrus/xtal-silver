@@ -53,8 +53,8 @@
         display: block;
       }
     </style>
-    <link rel="stylesheet" on-load="loaded" type="text/css" href="[[cssBasePath]]">
-    <link rel="stylesheet" on-load="loaded" type="text/css" href$="[[cssThemePath]]">
+    <link rel="stylesheet" type="text/css" href$="[[cssBasePath]]">
+    <link rel="stylesheet" type="text/css" href$="[[cssThemePath]]">
     <div id="myGrid" style="height: 100%;width:100%" class="ag-theme-material"></div>
         `;
         }
@@ -81,8 +81,8 @@
         if (!XtalSilver.isMSBrowser()) {
           const locationOfThisFile = document.currentScript.baseURI;
           if(!this.cssBasePath){
-            const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-grid.css");
-            this.cssThemePath = locationOfDefaultThemeFile;
+            const locationOfDefaultBaseFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-grid.css");
+            this.cssBasePath = locationOfDefaultBaseFile;
           }
           if(!this.cssThemePath){
             const locationOfDefaultThemeFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-theme-material.css");
@@ -94,11 +94,8 @@
       }
       onPropsChange() {
         if (XtalSilver.isMSBrowser()) {
-          console.log('iah1');
           var iFrame = this.$.myIFrame;
-          console.log('iah2');
           if (!iFrame || !iFrame.contentWindow || !iFrame.contentWindow.setGridOptions) {
-            console.log('iah3');
             setTimeout(() => {
               this.onPropsChange(), 100
             });
@@ -108,7 +105,6 @@
           iFrame.contentWindow.setGridOptions(this.gridOptions);
         } else {
           var eGridDiv = this.$.myGrid;
-
           // create the grid passing in the div to use together with the columns & data we want to use
           new agGrid.Grid(eGridDiv, this.gridOptions);
         }
