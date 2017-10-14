@@ -31,6 +31,14 @@
           },
           cssBasePath:{
             type: String,
+          },
+          themeClassName:{
+            type: String,
+            value: 'ag-theme-material'
+          },
+          newRows:{
+            type: Array,
+            observer: 'onNewRows'
           }
         };
       }
@@ -55,10 +63,31 @@
     </style>
     <link rel="stylesheet" type="text/css" href$="[[cssBasePath]]">
     <link rel="stylesheet" type="text/css" href$="[[cssThemePath]]">
-    <div id="myGrid" style="height: 100%;width:100%" class="ag-theme-material"></div>
+    
+    <div id="myGrid" style="height: 100%;width:100%" class$="[[themeClassName]]"></div>
         `;
         }
 
+      }
+      get grid(){
+        if(XtalSilver.isMSBrowser){
+          var iFrame = this.$.myIFrame;
+          return iFrame.contentWindow.grid;
+        }else{
+          return this._grid;
+        }
+      }
+      
+      onNewRows(){
+        var grid = this.grid();
+        if(this.gridOptions && !grid){
+          setTimeout(function(){
+            this.onNewRows()
+          }, 100);
+          return;
+        }
+        if(!grid || !grid.setRowData) return;
+        this.grid().setRowData(this.newRows);
       }
       //from https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
       absolute(base, relative) {
@@ -79,7 +108,10 @@
       connectedCallback() {
         super.connectedCallback();
         if (!XtalSilver.isMSBrowser()) {
-          const locationOfThisFile = document.currentScript.baseURI;
+          if(!XtalSilver.currentScript){
+            XtalSilver.currentScript = document.currentScript;
+          }
+          const locationOfThisFile = XtalSilver.currentScript ?  XtalSilver.currentScript.baseURI : '/bower_components/xtal-silver/xtal-silver.html';
           if(!this.cssBasePath){
             const locationOfDefaultBaseFile = this.absolute(locationOfThisFile, "../bower_components/ag-grid/dist/styles/ag-grid.css");
             this.cssBasePath = locationOfDefaultBaseFile;
@@ -105,8 +137,9 @@
           iFrame.contentWindow.setGridOptions(this.gridOptions);
         } else {
           var eGridDiv = this.$.myGrid;
+          eGridDiv.innerHTML = '';
           // create the grid passing in the div to use together with the columns & data we want to use
-          new agGrid.Grid(eGridDiv, this.gridOptions);
+          this._grid = new agGrid.Grid(eGridDiv, this.gridOptions);
         }
 
       }
