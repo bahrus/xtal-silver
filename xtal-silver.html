@@ -70,7 +70,7 @@
 
       }
       get grid(){
-        if(XtalSilver.isMSBrowser){
+        if(XtalSilver.isMSBrowser()){
           var iFrame = this.$.myIFrame;
           return iFrame.contentWindow.grid;
         }else{
