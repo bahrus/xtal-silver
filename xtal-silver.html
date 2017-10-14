@@ -79,8 +79,8 @@
       }
       
       onNewRows(){
-        var grid = this.grid();
-        if(this.gridOptions && !grid){
+        var grid = this.grid;
+        if(this.gridOptions && !this.grid){
           setTimeout(function(){
             this.onNewRows()
           }, 100);
