@@ -79,15 +79,15 @@
       }
       
       onNewRows(){
-        var grid = this.grid;
-        if(this.gridOptions && !this.grid){
-          setTimeout(function(){
-            this.onNewRows()
-          }, 100);
-          return;
-        }
-        if(!grid || !grid.setRowData) return;
-        this.grid().setRowData(this.newRows);
+        //var grid = this.grid;
+        if(!this.gridOptions || !this.gridOptions.api) return;
+        // if(this.gridOptions && !this.gridOptions.api){
+        //   setTimeout(function(){
+        //     this.onNewRows()
+        //   }, 100);
+        //   return;
+        // }
+        this.gridOptions.api.setRowData(this.newRows);
       }
       //from https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
       absolute(base, relative) {
