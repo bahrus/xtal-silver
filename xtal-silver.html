@@ -145,13 +145,27 @@
           }
           console.log('passed the tests');
           iFrame.contentWindow.setGridOptions(this.gridOptions);
+          this.setGridListeners();
         } else {
           var eGridDiv = this.$.myGrid;
           eGridDiv.innerHTML = '';
           // create the grid passing in the div to use together with the columns & data we want to use
           this._grid = new agGrid.Grid(eGridDiv, this.gridOptions);
+          this.setGridListeners();
         }
 
+      }
+      setGridListeners(){
+        const gop = this.gridOptions;
+        const el = gop.eventListeners;
+        if(el){
+          for(var key in el){
+            const callBack = el[key];
+            gop.api.addEventListener(key, e =>{
+              callBack(e, this);
+            })
+          }
+        }
       }
 
     }
