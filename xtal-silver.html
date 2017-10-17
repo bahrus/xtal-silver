@@ -39,6 +39,10 @@
           newRows:{
             type: Array,
             observer: 'onNewRows'
+          },
+          newDataSource:{
+            type: Object,
+            observer: 'onNewDataSource'
           }
         };
       }
@@ -89,6 +93,12 @@
         // }
         this.gridOptions.api.setRowData(this.newRows);
       }
+
+      onNewDataSource(){
+        if(!this.gridOptions || !this.gridOptions.api) return;
+        this.gridOptions.api.setDatasource(this.newDataSource);
+      }
+
       //from https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
       absolute(base, relative) {
         var stack = base.split("/"),
